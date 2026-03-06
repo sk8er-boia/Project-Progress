@@ -60,12 +60,29 @@ interface Project {
 }
 
 export default function App() {
+  const getThreeMonthsLater = (dateStr: string) => {
+    try {
+      const date = new Date(dateStr);
+      if (isNaN(date.getTime())) return '';
+      date.setMonth(date.getMonth() + 3);
+      return date.toISOString().split('T')[0];
+    } catch {
+      return '';
+    }
+  };
+
   const [projects, setProjects] = useState<Project[]>([]);
-  const [newProject, setNewProject] = useState<Omit<Project, 'id' | 'notes'>>({
-    collaborator: '', peFirm: 'PE', customer: '', positionName: '',
-    startDate: new Date().toISOString().split('T')[0], status: '후보자 서치 중', collaboration: '개별', expectedRevenue: '', expectedJoinDate: '',
-    successStatus: 'none',
-    isArchived: false
+  const [newProject, setNewProject] = useState<Omit<Project, 'id' | 'notes'>>(() => {
+    const today = new Date().toISOString().split('T')[0];
+    const threeMonthsLater = new Date();
+    threeMonthsLater.setMonth(threeMonthsLater.getMonth() + 3);
+    return {
+      collaborator: '', peFirm: 'PE', customer: '', positionName: '',
+      startDate: today, status: '후보자 서치 중', collaboration: '개별', expectedRevenue: '', 
+      expectedJoinDate: threeMonthsLater.toISOString().split('T')[0],
+      successStatus: 'none',
+      isArchived: false
+    };
   });
   const [newNote, setNewNote] = useState('');
   const [highlight, setHighlight] = useState('');
@@ -82,9 +99,11 @@ export default function App() {
 
   const addProject = () => {
     setProjects([...projects, { ...newProject, id: Date.now(), notes: newNote ? [{ id: Date.now(), text: newNote, date: new Date().toLocaleDateString() }] : [] }]);
+    const today = new Date().toISOString().split('T')[0];
     setNewProject({
       collaborator: '', peFirm: 'PE', customer: '', positionName: '',
-      startDate: new Date().toISOString().split('T')[0], status: '후보자 서치 중', collaboration: '개별', expectedRevenue: '', expectedJoinDate: '',
+      startDate: today, status: '후보자 서치 중', collaboration: '개별', expectedRevenue: '', 
+      expectedJoinDate: getThreeMonthsLater(today),
       successStatus: 'none',
       isArchived: false
     });
@@ -476,7 +495,14 @@ export default function App() {
           </select>
           <input placeholder="고객사" className="border p-1.5 rounded" value={newProject.customer} onChange={e => setNewProject({...newProject, customer: e.target.value})} />
           <input placeholder="포지션명" className="border p-1.5 rounded" value={newProject.positionName} onChange={e => setNewProject({...newProject, positionName: e.target.value})} />
-          <input type="date" className="border p-1.5 rounded" value={newProject.startDate} onChange={e => setNewProject({...newProject, startDate: e.target.value})} />
+          <input type="date" className="border p-1.5 rounded" value={newProject.startDate} onChange={e => {
+            const newDate = e.target.value;
+            setNewProject({
+              ...newProject, 
+              startDate: newDate,
+              expectedJoinDate: getThreeMonthsLater(newDate)
+            });
+          }} />
           <select className="border p-1.5 rounded" value={newProject.status} onChange={e => setNewProject({...newProject, status: e.target.value as ProjectStatus})}>
             {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
           </select>
