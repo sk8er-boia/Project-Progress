@@ -5,7 +5,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="bg-white border-b border-gray-200 py-4 px-8 flex justify-between items-center">
-        <div className="text-xl font-bold text-indigo-600">Project Progress</div>
+        <div className="text-xl font-bold text-indigo-600">PROJECT PROGRESS</div>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
@@ -56,7 +56,7 @@ export default function Landing() {
           <Link to="/privacy" className="hover:text-gray-800 transition-colors">개인정보처리방침</Link>
           <a href="mailto:jerry@briskyoung.com" className="hover:text-gray-800 transition-colors">문의하기</a>
         </div>
-        <p>Copyright 2026. Project Progress. All rights reserved.</p>
+        <p>Copyright 2026. PROJECT PROGRESS. All rights reserved.</p>
       </footer>
     </div>
   );

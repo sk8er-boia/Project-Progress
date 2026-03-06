@@ -20,7 +20,7 @@ export default function Privacy() {
           <section>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">1. 개인정보의 수집 및 이용 목적</h2>
             <p>
-              "Project Progress"(이하 "서비스")는 이용자의 어떠한 개인정보도 수집, 저장, 전송하지 않습니다. 
+              "PROJECT PROGRESS"(이하 "서비스")는 이용자의 어떠한 개인정보도 수집, 저장, 전송하지 않습니다. 
               모든 데이터는 이용자의 브라우저 로컬 스토리지에만 안전하게 저장되며, 서비스 제공자는 이에 접근할 수 없습니다.
             </p>
           </section>

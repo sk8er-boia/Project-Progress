@@ -20,7 +20,7 @@ export default function Terms() {
           <section>
             <h2 className="text-xl font-semibold text-gray-900 mb-3">제 1 조 (목적)</h2>
             <p>
-              본 약관은 "Project Progress"(이하 "서비스")가 제공하는 모든 기능 및 서비스의 이용과 관련하여, 
+              본 약관은 "PROJECT PROGRESS"(이하 "서비스")가 제공하는 모든 기능 및 서비스의 이용과 관련하여, 
               서비스 제공자와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다.
             </p>
           </section>

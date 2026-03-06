@@ -186,18 +186,10 @@ export default function App() {
   const activeProjects = filteredProjects.filter(p => !p.isArchived);
   const archivedProjects = filteredProjects.filter(p => p.isArchived);
 
-  const renderProjectRow = (p: Project, isArchive: boolean) => (
-    <tr key={p.id} className={`border-b hover:bg-gray-50 ${isArchive ? 'opacity-70' : ''}`}>
+  const renderProjectRow = (p: Project, isArchive: boolean, index: number) => (
+    <tr key={p.id} className={`border-b hover:bg-opacity-80 ${isArchive ? 'bg-purple-100/50 opacity-80' : 'bg-emerald-50/30'} ${index % 2 === 0 ? '' : 'bg-opacity-50'}`}>
       <td className="p-3">
         <div className="flex flex-col gap-2 items-center">
-          <button onClick={() => {
-            const nextStatus: SuccessStatus = p.successStatus === 'none' ? 'success' : p.successStatus === 'success' ? 'failure' : 'none';
-            setProjects(projects.map(proj => proj.id === p.id ? { ...proj, successStatus: nextStatus } : proj));
-          }}>
-            {p.successStatus === 'success' ? <CheckCircle className="text-green-500" size={16} /> :
-             p.successStatus === 'failure' ? <XCircle className="text-red-500" size={16} /> :
-             <Circle className="text-gray-300" size={16} />}
-          </button>
           {!isArchive ? (
             <button 
               onClick={() => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, isArchived: true } : proj))}
@@ -210,14 +202,14 @@ export default function App() {
               onClick={() => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, isArchived: false } : proj))}
               className="text-[9px] bg-blue-100 text-blue-700 px-1 py-0.5 rounded hover:bg-blue-200 text-center leading-tight w-full"
             >
-              진행중<br/>보내기
+              Re<br/>진행
             </button>
           )}
         </div>
       </td>
-      <td className="p-3 text-xs leading-tight">{p.collaborator.split(' ').join('\n')}</td>
+      <td className="p-3 text-xs leading-tight">{p.collaborator}</td>
       <td className="p-3">
-        <select className="border p-1 rounded text-[10px] w-full" value={p.peFirm} onChange={e => {
+        <select className="border p-1 rounded text-[9px] w-full" value={p.peFirm} onChange={e => {
           const newPeFirm = e.target.value as PeFirmStatus;
           setProjects(projects.map(proj => proj.id === p.id ? { ...proj, peFirm: newPeFirm } : proj));
         }}>
@@ -296,12 +288,12 @@ export default function App() {
             </td>
           </tr>
         );
-        projs.forEach(p => {
-          renderRows.push(renderProjectRow(p, isArchive));
+        projs.forEach((p, index) => {
+          renderRows.push(renderProjectRow(p, isArchive, index));
         });
       });
     } else {
-      renderRows = data.map(p => renderProjectRow(p, isArchive));
+      renderRows = data.map((p, index) => renderProjectRow(p, isArchive, index));
     }
 
     return (
@@ -310,7 +302,7 @@ export default function App() {
           <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
             <tr>
               <th className="p-3 w-16">구분</th>
-              <th className="p-3 w-20">컨설턴트</th>
+              <th className="p-3 w-28">컨설턴트</th>
               <th className="p-3 w-20">형태</th>
               <th className="p-3 w-32">고객사</th>
               <th className="p-3 w-32">포지션명</th>
@@ -394,8 +386,8 @@ export default function App() {
       </div>
       
       <div className="flex gap-4 mb-8 step-filter">
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex-1 flex items-center gap-3">
-          <label className="text-sm font-semibold text-gray-700 whitespace-nowrap">컨설턴트 필터:</label>
+        <div className="bg-yellow-50/50 p-4 rounded-xl shadow-sm border border-yellow-100 flex-1 flex items-center gap-3">
+          <label className="text-sm font-semibold text-yellow-900 whitespace-nowrap">컨설턴트 필터:</label>
           <select 
             className="border p-1.5 rounded text-sm w-48" 
             value={selectedConsultant} 
@@ -407,12 +399,12 @@ export default function App() {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-xl shadow-sm mb-8 border border-gray-200 step-add">
+      <div className="bg-blue-50/50 p-4 rounded-xl shadow-sm mb-8 border border-blue-100 step-add">
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-md font-semibold">새 프로젝트 추가</h2>
+          <h2 className="text-md font-semibold text-blue-900">새 프로젝트 추가</h2>
           <div className="flex gap-2">
-            <button onClick={exportData} className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-200">데이터 백업</button>
-            <button onClick={() => fileInputRef.current?.click()} className="bg-gray-100 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-200">데이터 복구</button>
+            <button onClick={exportData} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-blue-200 transition-colors">데이터 백업</button>
+            <button onClick={() => fileInputRef.current?.click()} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-xs font-bold hover:bg-blue-200 transition-colors">데이터 복구</button>
             <input type="file" ref={fileInputRef} onChange={importData} className="hidden" accept=".json" />
           </div>
         </div>
@@ -437,13 +429,13 @@ export default function App() {
         </div>
       </div>
 
-      <div className="bg-white p-4 rounded-xl shadow-sm mb-8 border border-gray-200 step-highlight">
+      <div className="bg-orange-50/50 p-4 rounded-xl shadow-sm mb-8 border border-orange-100 step-highlight">
         <div className="flex justify-between items-center mb-3">
-          <h2 className="text-md font-semibold">주간 Highlight</h2>
+          <h2 className="text-md font-semibold text-orange-900">주간 HIGHLIGHT</h2>
           <button 
             onClick={() => generateWeeklyHighlight()} 
             disabled={isGenerating}
-            className="flex items-center gap-1 bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded text-sm hover:bg-indigo-100 disabled:opacity-50 transition-colors"
+            className="flex items-center gap-1 bg-orange-100 text-orange-700 px-3 py-1.5 rounded text-sm hover:bg-orange-200 disabled:opacity-50 transition-colors"
           >
             <Sparkles size={16} />
             {isGenerating ? '요약 생성 중...' : '이번 주 요약 생성 (AI)'}
@@ -591,7 +583,7 @@ export default function App() {
           <Link to="/privacy" className="hover:text-gray-800 transition-colors">개인정보처리방침</Link>
           <a href="mailto:jerry@briskyoung.com" className="hover:text-gray-800 transition-colors">문의하기</a>
         </div>
-        <p>Copyright 2026. Project Progress. All rights reserved.</p>
+        <p>Copyright 2026. PROJECT PROGRESS. All rights reserved.</p>
       </footer>
     </div>
   );
