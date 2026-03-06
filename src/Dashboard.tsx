@@ -192,7 +192,7 @@ export default function App() {
   const archivedProjects = filteredProjects.filter(p => p.isArchived);
 
   const renderProjectRow = (p: Project, isArchive: boolean, index: number) => (
-    <tr key={p.id} className={`border-b hover:bg-opacity-80 ${isArchive ? 'bg-purple-100/50 opacity-80' : 'bg-emerald-50/30'} ${index % 2 === 0 ? '' : 'bg-opacity-50'}`}>
+    <tr key={p.id} className={`hover:bg-opacity-80 ${isArchive ? 'bg-purple-100/50 opacity-80' : 'bg-emerald-50/30'} ${index % 2 === 0 ? '' : 'bg-opacity-50'}`}>
       <td className="p-3">
         <div className="flex flex-col gap-2 items-center">
           {!isArchive ? (
@@ -212,24 +212,25 @@ export default function App() {
           )}
         </div>
       </td>
-      <td className="p-3 text-xs leading-tight">{p.collaborator}</td>
-      <td className="p-3">
-        <select className="border p-1 rounded text-[9px] w-full" value={p.peFirm} onChange={e => {
+      <td className="p-3 w-20 text-xs leading-tight whitespace-nowrap">{p.collaborator}</td>
+      <td className="p-3 w-28">
+        <select className="bg-transparent p-1 rounded text-[10px] w-full focus:outline-none" value={p.peFirm} onChange={e => {
           const newPeFirm = e.target.value as PeFirmStatus;
           setProjects(projects.map(proj => proj.id === p.id ? { ...proj, peFirm: newPeFirm } : proj));
         }}>
           {PE_FIRM_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
         </select>
       </td>
-      <td className="p-3 text-xs">{p.customer}</td>
-      <td className="p-3 text-xs w-32">
-        <input 
-          className="border p-1 rounded text-xs w-full" 
+      <td className="p-3 text-xs w-28">{p.customer}</td>
+      <td className="p-3 text-xs w-40">
+        <textarea 
+          className="border border-gray-300 p-1 rounded text-xs w-full focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white/50" 
+          rows={2}
           value={p.positionName} 
           onChange={e => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, positionName: e.target.value } : proj))}
         />
       </td>
-      <td className="p-3 text-xs w-28">{p.startDate}</td>
+      <td className="p-3 text-[9px] w-24 leading-tight">{p.startDate.replace(/-/g, '.')}</td>
       <td className="p-3 w-40">
         <span className={`px-2 py-1 rounded-full text-[10px] font-medium block whitespace-nowrap ${
           ['Longlist 추천 완료', 'Longlist 미팅 완료'].includes(p.status) ? 'bg-orange-100 text-orange-800' :
@@ -241,41 +242,46 @@ export default function App() {
           {p.status}
         </span>
       </td>
-      <td className="p-3 w-32">
-        <select className="border p-1 rounded text-[10px] w-full" value={p.status} onChange={e => {
+      <td className="p-3 w-28">
+        <select className="bg-transparent p-1 rounded text-[10px] w-full focus:outline-none" value={p.status} onChange={e => {
           const newStatus = e.target.value as ProjectStatus;
           setProjects(projects.map(proj => proj.id === p.id ? { ...proj, status: newStatus } : proj));
         }}>
           {STATUS_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
         </select>
       </td>
-      <td className="p-3">
-        <select className="border p-1 rounded text-[10px] w-full" value={p.collaboration} onChange={e => {
+      <td className="p-3 w-32">
+        <select className="bg-transparent p-1 rounded text-[10px] w-full focus:outline-none" value={p.collaboration} onChange={e => {
           const newCollaboration = e.target.value as CollaborationStatus;
           setProjects(projects.map(proj => proj.id === p.id ? { ...proj, collaboration: newCollaboration } : proj));
         }}>
           {COLLABORATION_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
         </select>
       </td>
-      <td className="p-3 text-xs">
+      <td className="p-3 text-xs w-24">
         <input 
-          className="border p-1 rounded text-xs w-full" 
+          className="border border-gray-300 p-1 rounded text-xs w-full focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white/50" 
           value={p.expectedRevenue} 
           onChange={e => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, expectedRevenue: e.target.value } : proj))}
         />
       </td>
-      <td className="p-3 text-[10px] w-20">
-        <input type="date" className="border p-1 rounded text-[10px] w-full" value={p.expectedJoinDate} onChange={e => {
+      <td className="p-3 text-[9px] w-20">
+        <input type="date" className="bg-transparent p-1 rounded text-[9px] w-full focus:outline-none" value={p.expectedJoinDate} onChange={e => {
           const newJoinDate = e.target.value;
           setProjects(projects.map(proj => proj.id === p.id ? { ...proj, expectedJoinDate: newJoinDate } : proj));
         }} />
       </td>
       <td className="p-3">
-        <div className="text-xs text-gray-600 mb-1 max-h-20 overflow-y-auto">
-          {p.notes.map(n => <div key={n.id}>[{n.date}] {n.text}</div>)}
+        <div className="text-[11px] text-gray-600 mb-2 max-h-32 overflow-y-auto">
+          {p.notes.map(n => (
+            <div key={n.id} className="mb-2 border-l-2 border-gray-200 pl-2">
+              <div className="font-bold text-gray-800 text-[10px]">[{n.date}]</div>
+              <div className="text-gray-700 leading-snug">{n.text}</div>
+            </div>
+          ))}
         </div>
         <div className="flex gap-1">
-          <input id={`note-${p.id}`} className="border p-1 rounded text-xs w-full" placeholder="추가 Note" />
+          <input id={`note-${p.id}`} className="bg-white/50 border border-gray-200 p-1 rounded text-xs w-full focus:outline-none focus:border-gray-400" placeholder="추가 Note" />
           <button onClick={() => {
             const input = document.getElementById(`note-${p.id}`) as HTMLInputElement;
             addNoteToProject(p.id, input.value);
@@ -288,7 +294,7 @@ export default function App() {
 
   const renderTable = (data: Project[], isArchive: boolean = false) => {
     const isGrouped = selectedConsultant !== '전체';
-    let renderRows: JSX.Element[] = [];
+    let renderRows: any[] = [];
 
     if (isGrouped) {
       const groupedData = data.reduce((acc, curr) => {
@@ -299,7 +305,7 @@ export default function App() {
 
       Object.entries(groupedData).forEach(([customer, projs]) => {
         renderRows.push(
-          <tr key={`group-${customer}`} className="bg-indigo-50/80 border-b border-indigo-100">
+          <tr key={`group-${customer}`} className="bg-indigo-50/80">
             <td colSpan={12} className="p-2 px-3 font-bold text-indigo-900 text-xs">
               🏢 고객사: {customer || '미지정'} <span className="text-indigo-600 font-normal ml-1">({projs.length}건)</span>
             </td>
@@ -314,20 +320,20 @@ export default function App() {
     }
 
     return (
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-x-auto mb-8">
+      <div className="bg-white rounded-xl shadow-sm overflow-x-auto mb-8">
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-50 text-gray-600 uppercase text-xs">
             <tr>
               <th className="p-3 w-16">구분</th>
-              <th className="p-3 w-28">컨설턴트</th>
-              <th className="p-3 w-20">형태</th>
-              <th className="p-3 w-32">고객사</th>
-              <th className="p-3 w-32">포지션명</th>
-              <th className="p-3 w-28">시작일</th>
+              <th className="p-3 w-20">컨설턴트</th>
+              <th className="p-3 w-28">형태</th>
+              <th className="p-3 w-28">고객사</th>
+              <th className="p-3 w-40">포지션명</th>
+              <th className="p-3 w-24">시작일</th>
               <th className="p-3 w-40">현재 STATUS</th>
-              <th className="p-3 w-32">상태</th>
-              <th className="p-3 w-20">협업<br/>상태</th>
-              <th className="p-3 w-20">매출액<br/>(만원)</th>
+              <th className="p-3 w-28">상태</th>
+              <th className="p-3 w-32">협업<br/>상태</th>
+              <th className="p-3 w-24">매출액<br/>(만원)</th>
               <th className="p-3 w-20 text-xs">입사일<br/>(예정)</th>
               <th className="p-3 w-64">진행사항 Note</th>
             </tr>
@@ -346,7 +352,7 @@ export default function App() {
                           .reduce((sum, p) => sum + (parseInt(p.expectedRevenue.replace(/[^0-9]/g, '')) || 0), 0);
                         
                         return (
-                          <tr key={`total-${consultant}`} className="bg-purple-50/50 font-bold border-t border-purple-100">
+                          <tr key={`total-${consultant}`} className="bg-purple-50/50 font-bold">
                             <td colSpan={9} className="p-2 text-right text-purple-800 text-xs">[{consultant}] 누적 매출 합계 (만원):</td>
                             <td className="p-2 text-purple-800 text-xs">
                               {consultantTotal.toLocaleString()}
@@ -356,7 +362,7 @@ export default function App() {
                         );
                       })
                     ) : null}
-                    <tr className="bg-purple-100 font-bold border-t-2 border-purple-200">
+                    <tr className="bg-purple-100 font-bold">
                       <td colSpan={9} className="p-3 text-right text-purple-900">
                         {selectedConsultant === '전체' ? '전체 컨설턴트 총 누적 합계 (만원):' : `[${selectedConsultant}] 누적 매출 합계 (만원):`}
                       </td>
