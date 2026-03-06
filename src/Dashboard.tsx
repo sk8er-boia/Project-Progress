@@ -284,11 +284,16 @@ export default function App() {
           onChange={e => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, expectedRevenue: e.target.value } : proj))}
         />
       </td>
-      <td className="p-3 text-[9px] w-20">
-        <input type="date" className="bg-transparent p-1 rounded text-[9px] w-full focus:outline-none" value={p.expectedJoinDate} onChange={e => {
-          const newJoinDate = e.target.value;
-          setProjects(projects.map(proj => proj.id === p.id ? { ...proj, expectedJoinDate: newJoinDate } : proj));
-        }} />
+      <td className="p-3 text-[9px] w-24">
+        <input 
+          type="date" 
+          className="border border-gray-300 p-1 rounded text-[9px] w-full focus:outline-none focus:ring-1 focus:ring-blue-400 bg-white/50" 
+          value={p.expectedJoinDate} 
+          onChange={e => {
+            const newJoinDate = e.target.value;
+            setProjects(projects.map(proj => proj.id === p.id ? { ...proj, expectedJoinDate: newJoinDate } : proj));
+          }} 
+        />
       </td>
       <td className="p-3">
         <div className="text-[11px] text-gray-600 mb-2 max-h-32 overflow-y-auto">
@@ -353,7 +358,7 @@ export default function App() {
               <th className="p-3 w-28">상태</th>
               <th className="p-3 w-32">협업<br/>상태</th>
               <th className="p-3 w-24">매출액<br/>(만원)</th>
-              <th className="p-3 w-20 text-xs">입사일<br/>(예정)</th>
+              <th className="p-3 w-24 text-xs">입사일<br/>(예정)</th>
               <th className="p-3 w-64">진행사항 Note</th>
             </tr>
           </thead>
