@@ -163,7 +163,12 @@ export default function App() {
       setHighlight(response.text || '');
     } catch (error) {
       console.error('Failed to generate highlight:', error);
-      alert('요약 생성 중 오류가 발생했습니다.');
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      if (errorMessage.includes('API_KEY') || errorMessage.includes('401') || errorMessage.includes('403')) {
+        alert('Gemini API Key가 설정되지 않았거나 유효하지 않습니다. 플랫폼의 API Key 설정 메뉴를 통해 Key를 확인하거나 다시 설정해주세요.');
+      } else {
+        alert('요약 생성 중 오류가 발생했습니다: ' + errorMessage);
+      }
     } finally {
       setIsGenerating(false);
     }
