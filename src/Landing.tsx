@@ -6,11 +6,6 @@ export default function Landing() {
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <header className="bg-white border-b border-gray-200 py-4 px-8 flex justify-between items-center">
         <div className="text-xl font-bold text-indigo-600">Project Progress</div>
-        <nav className="flex gap-6 text-sm font-medium text-gray-600">
-          <Link to="/terms" className="hover:text-gray-900 transition-colors">이용약관</Link>
-          <Link to="/privacy" className="hover:text-gray-900 transition-colors">개인정보처리방침</Link>
-          <a href="mailto:jerry@briskyoung.com" className="hover:text-gray-900 transition-colors">문의하기</a>
-        </nav>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
@@ -20,7 +15,7 @@ export default function Landing() {
         </h1>
         <p className="text-lg text-gray-600 mb-10 max-w-2xl">
           컨설턴트별 프로젝트 진행 현황을 한눈에 파악하고, AI를 활용하여 주간 하이라이트를 자동으로 생성하세요. 
-          데이터 백업 및 복구 기능으로 안전하게 관리할 수 있습니다.
+          데이터 백업/복구 기능으로 안전하게 관리할 수 있습니다.
         </p>
         
         <Link 

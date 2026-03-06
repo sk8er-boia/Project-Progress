@@ -5,7 +5,7 @@
 
 import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle, XCircle, Circle, Sparkles, HelpCircle } from 'lucide-react';
+import { CheckCircle, XCircle, Circle, Sparkles, HelpCircle, Home } from 'lucide-react';
 import { GoogleGenAI } from '@google/genai';
 import { Steps } from 'intro.js-react';
 import 'intro.js/introjs.css';
@@ -377,12 +377,20 @@ export default function App() {
       
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900">프로젝트 진행 현황</h1>
-        <button 
-          onClick={() => setStepsEnabled(true)}
-          className="flex items-center gap-2 text-sm text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full hover:bg-indigo-100 transition-colors"
-        >
-          <HelpCircle size={16} /> 가이드 보기
-        </button>
+        <div className="flex items-center gap-3">
+          <Link 
+            to="/"
+            className="flex items-center gap-2 text-sm text-gray-600 bg-white border border-gray-200 px-3 py-1.5 rounded-full hover:bg-gray-50 transition-colors"
+          >
+            <Home size={16} /> 처음 화면으로
+          </Link>
+          <button 
+            onClick={() => setStepsEnabled(true)}
+            className="flex items-center gap-2 text-sm text-indigo-600 bg-indigo-50 px-3 py-1.5 rounded-full hover:bg-indigo-100 transition-colors"
+          >
+            <HelpCircle size={16} /> 가이드 보기
+          </button>
+        </div>
       </div>
       
       <div className="flex gap-4 mb-8 step-filter">
