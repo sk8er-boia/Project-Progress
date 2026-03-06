@@ -9,7 +9,7 @@ export default function Landing() {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center text-center px-4 py-20">
-        <h1 className="text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">
+        <h1 className="text-5xl font-black text-gray-900 mb-6 tracking-tight leading-tight">
           채용 프로젝트 관리를 <br />
           <span className="text-indigo-600">가장 스마트하게</span>
         </h1>

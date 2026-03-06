@@ -238,7 +238,7 @@ export default function App() {
           {p.status}
         </span>
       </td>
-      <td className="p-3">
+      <td className="p-3 w-32">
         <select className="border p-1 rounded text-[10px] w-full" value={p.status} onChange={e => {
           const newStatus = e.target.value as ProjectStatus;
           setProjects(projects.map(proj => proj.id === p.id ? { ...proj, status: newStatus } : proj));
@@ -316,7 +316,7 @@ export default function App() {
               <th className="p-3 w-32">포지션명</th>
               <th className="p-3 w-28">시작일</th>
               <th className="p-3 w-40">현재 STATUS</th>
-              <th className="p-3 w-12">상태 변경</th>
+              <th className="p-3 w-32">상태</th>
               <th className="p-3 w-20">협업<br/>상태</th>
               <th className="p-3 w-20">매출액<br/>(만원)</th>
               <th className="p-3 w-20 text-xs">입사일<br/>(예정)</th>
