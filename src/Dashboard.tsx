@@ -222,7 +222,13 @@ export default function App() {
         </select>
       </td>
       <td className="p-3 text-xs">{p.customer}</td>
-      <td className="p-3 text-xs w-32">{p.positionName}</td>
+      <td className="p-3 text-xs w-32">
+        <input 
+          className="border p-1 rounded text-xs w-full" 
+          value={p.positionName} 
+          onChange={e => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, positionName: e.target.value } : proj))}
+        />
+      </td>
       <td className="p-3 text-xs w-28">{p.startDate}</td>
       <td className="p-3 w-40">
         <span className={`px-2 py-1 rounded-full text-[10px] font-medium block whitespace-nowrap ${
@@ -251,7 +257,13 @@ export default function App() {
           {COLLABORATION_OPTIONS.map(s => <option key={s} value={s}>{s}</option>)}
         </select>
       </td>
-      <td className="p-3 text-xs">{p.expectedRevenue.split(' ').join('\n')}</td>
+      <td className="p-3 text-xs">
+        <input 
+          className="border p-1 rounded text-xs w-full" 
+          value={p.expectedRevenue} 
+          onChange={e => setProjects(projects.map(proj => proj.id === p.id ? { ...proj, expectedRevenue: e.target.value } : proj))}
+        />
+      </td>
       <td className="p-3 text-[10px] w-20">
         <input type="date" className="border p-1 rounded text-[10px] w-full" value={p.expectedJoinDate} onChange={e => {
           const newJoinDate = e.target.value;
