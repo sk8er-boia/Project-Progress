@@ -333,7 +333,45 @@ export default function App() {
             </tr>
           </thead>
           <tbody>
-            {renderRows.length > 0 ? renderRows : (
+            {renderRows.length > 0 ? (
+              <>
+                {renderRows}
+                {isArchive && (
+                  <>
+                    {selectedConsultant === '전체' ? (
+                      // 컨설턴트별 합계 표시
+                      Array.from(new Set(data.map(p => p.collaborator))).filter(Boolean).map(consultant => {
+                        const consultantTotal = data
+                          .filter(p => p.collaborator === consultant)
+                          .reduce((sum, p) => sum + (parseInt(p.expectedRevenue.replace(/[^0-9]/g, '')) || 0), 0);
+                        
+                        return (
+                          <tr key={`total-${consultant}`} className="bg-purple-50/50 font-bold border-t border-purple-100">
+                            <td colSpan={9} className="p-2 text-right text-purple-800 text-xs">[{consultant}] 누적 매출 합계 (만원):</td>
+                            <td className="p-2 text-purple-800 text-xs">
+                              {consultantTotal.toLocaleString()}
+                            </td>
+                            <td colSpan={2} className="p-2"></td>
+                          </tr>
+                        );
+                      })
+                    ) : null}
+                    <tr className="bg-purple-100 font-bold border-t-2 border-purple-200">
+                      <td colSpan={9} className="p-3 text-right text-purple-900">
+                        {selectedConsultant === '전체' ? '전체 컨설턴트 총 누적 합계 (만원):' : `[${selectedConsultant}] 누적 매출 합계 (만원):`}
+                      </td>
+                      <td className="p-3 text-purple-900">
+                        {data.reduce((sum, p) => {
+                          const val = parseInt(p.expectedRevenue.replace(/[^0-9]/g, '')) || 0;
+                          return sum + val;
+                        }, 0).toLocaleString()}
+                      </td>
+                      <td colSpan={2} className="p-3"></td>
+                    </tr>
+                  </>
+                )}
+              </>
+            ) : (
               <tr>
                 <td colSpan={12} className="p-8 text-center text-gray-500">
                   {isArchive ? '보관된 프로젝트가 없습니다.' : '진행 중인 프로젝트가 없습니다.'}
